@@ -16,9 +16,9 @@ a:visited,
 a:link
 {
     text-decoration: none;
-
     color: #526d7a;
 }
+
 body
 {
     font-family: 'Roboto Slab', 'Roboto', 'Lato', sans-serif;
@@ -212,7 +212,7 @@ h6.meta
     color: #bbb;
 }
 section.meta {
-    margin-top: 
+    margin-top:
 }
 .powered
 {
