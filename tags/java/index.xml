@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Java on #yolocode</title>
-    <link>https://davidafsilva.github.io/tags/java/index.xml</link>
+    <link>http://davidafsilva.pt/tags/java/index.xml</link>
     <description>Recent content in Java on #yolocode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="https://davidafsilva.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://davidafsilva.pt/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Road to OCA Java SE 8 Programmer I (1Z0-808)</title>
-      <link>https://davidafsilva.github.io/blog/oca_jse8_certification/</link>
+      <link>http://davidafsilva.pt/blog/oca_jse8_certification/</link>
       <pubDate>Wed, 11 Jan 2017 22:33:00 +0000</pubDate>
       
-      <guid>https://davidafsilva.github.io/blog/oca_jse8_certification/</guid>
+      <guid>http://davidafsilva.pt/blog/oca_jse8_certification/</guid>
       <description>
 
-&lt;p&gt;So, after pushing away the &lt;a href=&#34;http://education.oracle.com/pls/web_prod-plq-dad/db_pages.getpage?page_id=5001&amp;amp;get_params=p_exam_id:1Z0-808&#34;&gt;OCA Java SE 8 Programmer I&lt;/a&gt;&lt;sup id=&#34;a1&#34;&gt;&lt;a href=&#34;https://davidafsilva.github.io/blog/oca_jse8_certification/#f1&#34;&gt;[1]&lt;/a&gt;&lt;/sup&gt; exam for a gazillion years (originally, the SE 7 version). Last June, i&amp;rsquo;ve been given the opportunity (indeed, a voucher) to take the exam, but guess what? I simply forgot. Well, not forgot, but i thought the voucher was due in June 2017, 1 year after the purchase. But it wasn&amp;rsquo;t - yeah i know, &lt;em&gt;i iz stoopid&lt;/em&gt;&amp;hellip;&lt;br /&gt;
+&lt;p&gt;So, after pushing away the &lt;a href=&#34;http://education.oracle.com/pls/web_prod-plq-dad/db_pages.getpage?page_id=5001&amp;amp;get_params=p_exam_id:1Z0-808&#34;&gt;OCA Java SE 8 Programmer I&lt;/a&gt;&lt;sup id=&#34;a1&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/oca_jse8_certification/#f1&#34;&gt;[1]&lt;/a&gt;&lt;/sup&gt; exam for a gazillion years (originally, the SE 7 version). Last June, i&amp;rsquo;ve been given the opportunity (indeed, a voucher) to take the exam, but guess what? I simply forgot. Well, not forgot, but i thought the voucher was due in June 2017, 1 year after the purchase. But it wasn&amp;rsquo;t - yeah i know, &lt;em&gt;i iz stoopid&lt;/em&gt;&amp;hellip;&lt;br /&gt;
 So, here&amp;rsquo;s how i prepared myself for the exam. Hopefully, you&amp;rsquo;ll take something away from my journey and be at least as prepared as i was.&lt;/p&gt;
 
 &lt;h3 id=&#34;disclaimer&#34;&gt;Disclaimer&lt;/h3&gt;
@@ -25,28 +25,28 @@ So, here&amp;rsquo;s how i prepared myself for the exam. Hopefully, you&amp;rsqu
 
 &lt;h3 id=&#34;study-book&#34;&gt;Study Book&lt;/h3&gt;
 
-&lt;p&gt;I started by reading &lt;a href=&#34;https://www.amazon.co.uk/OCA-Certified-Associate-Programmer-1Z0-808/dp/1118957407&#34;&gt;OCA: Oracle Certified Associate Java SE 8 Programmer I Study Guide&lt;/a&gt;&lt;sup id=&#34;a2&#34;&gt;&lt;a href=&#34;https://davidafsilva.github.io/blog/oca_jse8_certification/#f2&#34;&gt;[2]&lt;/a&gt;&lt;/sup&gt;. I have actually read it twice, three times if i count with &lt;a href=&#34;https://www.amazon.co.uk/Programmer-Study-Guide-1Z0-803-Oracle/dp/0071789421/ref=sr_1_fkmr0_1?s=books&amp;amp;ie=UTF8&amp;amp;qid=1484002295&amp;amp;sr=1-1-fkmr0&amp;amp;keywords=OCA+Java+SE+7+Programmer+I+Study+Guide+%28Exam+1Z0-803%29+2nd+Edition&#34;&gt;this&lt;/a&gt;&lt;sup id=&#34;a3&#34;&gt;&lt;a href=&#34;https://davidafsilva.github.io/blog/oca_jse8_certification/#f3&#34;&gt;[3]&lt;/a&gt;&lt;/sup&gt;. Have i told you that &lt;em&gt;i iz stoopid&lt;/em&gt;.?&lt;br /&gt;
-The book itself isn&amp;rsquo;t particularly awesome if you&amp;rsquo;re new to programming and/or Java, there are a &lt;a href=&#34;https://www.quora.com/What-are-the-best-books-to-learn-Java&#34;&gt;couple of other books&lt;/a&gt;&lt;sup id=&#34;a4&#34;&gt;&lt;a href=&#34;https://davidafsilva.github.io/blog/oca_jse8_certification/#f4&#34;&gt;[4]&lt;/a&gt;&lt;/sup&gt; that you may find a little more helpful as a beginner. On the other hand, if you&amp;rsquo;re not, even though the book structure could be better organized, it&amp;rsquo;s not hard to follow, granted that you&amp;rsquo;ll have to either jump or keep reading until certain topics are actually completely covered.&lt;/p&gt;
+&lt;p&gt;I started by reading &lt;a href=&#34;https://www.amazon.co.uk/OCA-Certified-Associate-Programmer-1Z0-808/dp/1118957407&#34;&gt;OCA: Oracle Certified Associate Java SE 8 Programmer I Study Guide&lt;/a&gt;&lt;sup id=&#34;a2&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/oca_jse8_certification/#f2&#34;&gt;[2]&lt;/a&gt;&lt;/sup&gt;. I have actually read it twice, three times if i count with &lt;a href=&#34;https://www.amazon.co.uk/Programmer-Study-Guide-1Z0-803-Oracle/dp/0071789421/ref=sr_1_fkmr0_1?s=books&amp;amp;ie=UTF8&amp;amp;qid=1484002295&amp;amp;sr=1-1-fkmr0&amp;amp;keywords=OCA+Java+SE+7+Programmer+I+Study+Guide+%28Exam+1Z0-803%29+2nd+Edition&#34;&gt;this&lt;/a&gt;&lt;sup id=&#34;a3&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/oca_jse8_certification/#f3&#34;&gt;[3]&lt;/a&gt;&lt;/sup&gt;. Have i told you that &lt;em&gt;i iz stoopid&lt;/em&gt;.?&lt;br /&gt;
+The book itself isn&amp;rsquo;t particularly awesome if you&amp;rsquo;re new to programming and/or Java, there are a &lt;a href=&#34;https://www.quora.com/What-are-the-best-books-to-learn-Java&#34;&gt;couple of other books&lt;/a&gt;&lt;sup id=&#34;a4&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/oca_jse8_certification/#f4&#34;&gt;[4]&lt;/a&gt;&lt;/sup&gt; that you may find a little more helpful as a beginner. On the other hand, if you&amp;rsquo;re not, even though the book structure could be better organized, it&amp;rsquo;s not hard to follow, granted that you&amp;rsquo;ll have to either jump or keep reading until certain topics are actually completely covered.&lt;/p&gt;
 
-&lt;p&gt;I&amp;rsquo;ve used my &lt;a href=&#34;https://www.amazon.co.uk/gp/product/B00QJDO0QC/ref=kin_comp_dk_kp_img&#34;&gt;kindle&lt;/a&gt;&lt;sup id=&#34;a5&#34;&gt;&lt;a href=&#34;https://davidafsilva.github.io/blog/oca_jse8_certification/#f5&#34;&gt;[5]&lt;/a&gt;&lt;/sup&gt; to read the book and kept highlighting content that i thought it was important for me to remember. At the end of the book i had a bunch of highlighted content that i took and wrote down, along with examples, so i could read them in my own words.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ve used my &lt;a href=&#34;https://www.amazon.co.uk/gp/product/B00QJDO0QC/ref=kin_comp_dk_kp_img&#34;&gt;kindle&lt;/a&gt;&lt;sup id=&#34;a5&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/oca_jse8_certification/#f5&#34;&gt;[5]&lt;/a&gt;&lt;/sup&gt; to read the book and kept highlighting content that i thought it was important for me to remember. At the end of the book i had a bunch of highlighted content that i took and wrote down, along with examples, so i could read them in my own words.&lt;/p&gt;
 
 &lt;p&gt;The included questionnaires at the end of each chapter was very valuable indeed. You&amp;rsquo;ll need a lot of practice for the exam since its questions might not be as straightforward as they might seem at first glance. Be sure to ready them carefully.&lt;/p&gt;
 
 &lt;h3 id=&#34;practice-exams&#34;&gt;Practice Exams&lt;/h3&gt;
 
-&lt;p&gt;Aside from the questionnaires available at the OCA book, you can find some free mock exams available to you &lt;a href=&#34;https://www.javacodegeeks.com/2015/11/5-free-ocajp8-ocpjp8-mock-exams-and-practice-questions-1z0-808-809-java-8-certification.html&#34;&gt;here&lt;/a&gt;&lt;sup id=&#34;a6&#34;&gt;&lt;a href=&#34;https://davidafsilva.github.io/blog/oca_jse8_certification/#f6&#34;&gt;[6]&lt;/a&gt;&lt;/sup&gt;. I didn&amp;rsquo;t use them though, simply because i wanted something that hopefully would be harder than the actual exam.&lt;br /&gt;
+&lt;p&gt;Aside from the questionnaires available at the OCA book, you can find some free mock exams available to you &lt;a href=&#34;https://www.javacodegeeks.com/2015/11/5-free-ocajp8-ocpjp8-mock-exams-and-practice-questions-1z0-808-809-java-8-certification.html&#34;&gt;here&lt;/a&gt;&lt;sup id=&#34;a6&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/oca_jse8_certification/#f6&#34;&gt;[6]&lt;/a&gt;&lt;/sup&gt;. I didn&amp;rsquo;t use them though, simply because i wanted something that hopefully would be harder than the actual exam.&lt;br /&gt;
 Don&amp;rsquo;t get me wrong, you&amp;rsquo;ll most likely be able to pass the exam, specially if you&amp;rsquo;re already familiar with Java. So, the question is: Are you only looking for the &amp;laquo;Congratulations on earning your Oracle Certification credential!&amp;raquo; e-mail afterwards? I wasn&amp;rsquo;t.&lt;/p&gt;
 
-&lt;p&gt;I came across &lt;a href=&#34;http://enthuware.com/index.php/mock-exams/oracle-certified-associate/java-oca-certification-8&#34;&gt;enthuware&lt;/a&gt;&lt;sup id=&#34;a7&#34;&gt;&lt;a href=&#34;https://davidafsilva.github.io/blog/oca_jse8_certification/#f7&#34;&gt;[7]&lt;/a&gt;&lt;/sup&gt; exams while doing my research, and guess what? I cannot recommend them enough. The exams are spot on, IMO (some of them a lot) harder than the actual OCA exam. They&amp;rsquo;re worth the 10&amp;euro; price tag, no questions - no pun intended &amp;#9787;&lt;/p&gt;
+&lt;p&gt;I came across &lt;a href=&#34;http://enthuware.com/index.php/mock-exams/oracle-certified-associate/java-oca-certification-8&#34;&gt;enthuware&lt;/a&gt;&lt;sup id=&#34;a7&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/oca_jse8_certification/#f7&#34;&gt;[7]&lt;/a&gt;&lt;/sup&gt; exams while doing my research, and guess what? I cannot recommend them enough. The exams are spot on, IMO (some of them a lot) harder than the actual OCA exam. They&amp;rsquo;re worth the 10&amp;euro; price tag, no questions - no pun intended &amp;#9787;&lt;/p&gt;
 
 &lt;h3 id=&#34;exam-result&#34;&gt;Exam &amp;amp; Result&lt;/h3&gt;
 
 &lt;p&gt;All of this preparation turned the actual exam into a &lt;em&gt;piece of cake&lt;/em&gt; for me. I took my time, read all of the 80 questions slowly - i was averaging 1h30m for the mock exams while the real exam took me 2 hours and some bits to complete - and carefully. There were a couple of questions which were harder than the others, but nothing too fancy.&lt;/p&gt;
 
-&lt;p&gt;A few hours later i checked &lt;a href=&#34;http://education.oracle.com/pls/eval-eddap-dcd/ocp_interface.ocp_candidate_login?p_org_id=35&#34;&gt;certview&lt;/a&gt;&lt;sup id=&#34;a8&#34;&gt;&lt;a href=&#34;https://davidafsilva.github.io/blog/oca_jse8_certification/#f8&#34;&gt;[8]&lt;/a&gt;&lt;/sup&gt; and the result was there (i didn&amp;rsquo;t receive the e-mail until the next day). Boom! I failed&amp;hellip; one fucking question, because &lt;em&gt;i iz stoopid&lt;/em&gt; and can only read 79 questions, not 80: 
+&lt;p&gt;A few hours later i checked &lt;a href=&#34;http://education.oracle.com/pls/eval-eddap-dcd/ocp_interface.ocp_candidate_login?p_org_id=35&#34;&gt;certview&lt;/a&gt;&lt;sup id=&#34;a8&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/oca_jse8_certification/#f8&#34;&gt;[8]&lt;/a&gt;&lt;/sup&gt; and the result was there (i didn&amp;rsquo;t receive the e-mail until the next day). Boom! I failed&amp;hellip; one fucking question, because &lt;em&gt;i iz stoopid&lt;/em&gt; and can only read 79 questions, not 80: 
 &lt;figure class=&#34;text-center&#34;&gt;
     
-        &lt;img src=&#34;https://davidafsilva.github.io/img/stallone_facepalm.gif&#34; alt=&#34;Facepalm!&#34; /&gt;
+        &lt;img src=&#34;http://davidafsilva.pt/img/stallone_facepalm.gif&#34; alt=&#34;Facepalm!&#34; /&gt;
     
     
 &lt;/figure&gt;
