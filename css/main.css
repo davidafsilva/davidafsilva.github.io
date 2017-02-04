@@ -254,6 +254,14 @@ section.meta {
 
     color: #555;
 }
+.summary
+{
+  font-size: 13px;
+  color: #999;
+}
+.read-more-link {
+  font-size: 13px;  
+}
 header.title
 {
     margin-top: 50px;
