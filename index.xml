@@ -17,8 +17,6 @@
       <guid>http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/</guid>
       <description>&lt;p&gt;In this 2-part blog post, we&amp;rsquo;ll start by briefly explaining the purpose of annotation processors and how can we create and register one for fun (the profit will come later!). In the second part of this series, we&amp;rsquo;ll use and abuse its internal APIs to have even more fun! You&amp;rsquo;ll find yourself in a dark place with awesome cookies &amp;#9787; &lt;/p&gt;
 
-&lt;p&gt;This might take awhile, so go grab a bite to eat. Unfortunately, you don&amp;rsquo;t have the tasty dark side cookies just yet!&lt;/p&gt;
-
 &lt;h2 id=&#34;annotation-processor&#34;&gt;Annotation Processor&lt;/h2&gt;
 
 &lt;p&gt;First of all, i&amp;rsquo;ll assume you&amp;rsquo;re already familiar with annotations, if that&amp;rsquo;s not the case, feel free to read &lt;a href=&#34;https://docs.oracle.com/javase/tutorial/java/annotations/&#34;&gt;Oracle&amp;rsquo;s documentation&lt;/a&gt;&lt;sup id=&#34;a1&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f1&#34;&gt;[1]&lt;/a&gt;&lt;/sup&gt; on it.&lt;br /&gt;
@@ -88,7 +86,7 @@ This is essentially the abstraction that i have mentioned earlier, it provides s
 &lt;li&gt;Supported annotation types via &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedAnnotationTypes.html&#34;&gt;@SupportedAnnotationTypes&lt;/a&gt;&lt;sup id=&#34;a6&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f6&#34;&gt;[6]&lt;/a&gt;&lt;/sup&gt; annotation.&lt;br /&gt;&lt;/li&gt;
 &lt;li&gt;Supported processor options via &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedOptions.html&#34;&gt;@SupportedOptions&lt;/a&gt;&lt;sup id=&#34;a7&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f7&#34;&gt;[7]&lt;/a&gt;&lt;/sup&gt; annotation.&lt;br /&gt;&lt;/li&gt;
 &lt;li&gt;Issues warnings when appropriate (i.e. no source version have been configured).&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;Holds a reference for &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/ProcessingEnvironment.html&#34;&gt;ProcessingEnvironment&lt;/a&gt;&lt;sup id=&#34;a8&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f8&#34;&gt;[8]&lt;/a&gt;&lt;/sup&gt; via the &lt;strong&gt;processingEnv&lt;/strong&gt; variable after the processor initialization.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Holds a reference for &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/ProcessingEnvironment.html&#34;&gt;ProcessingEnvironment&lt;/a&gt;&lt;sup id=&#34;a8&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f8&#34;&gt;[8]&lt;/a&gt;&lt;/sup&gt; via the &lt;strong&gt;processingEnv&lt;/strong&gt; variable after the processor initialization. This class provides a facility to create new files, report messages to the compiler along with other utility functions.&lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;getSupportedAnnotationTypes&lt;/strong&gt;&lt;br /&gt;
 Here we configure the supported annotations by our processor. Optionally, you can configure this via annotations if you use choose to extend AbstractProcessor.&lt;br /&gt;
