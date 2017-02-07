@@ -38,9 +38,7 @@ Basically, you register an annotation processor to be executed during compile ti
 
 &lt;p&gt;The API is kind enough to provide you with an abstraction&lt;sup id=&#34;a4&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f4&#34;&gt;[4]&lt;/a&gt;&lt;/sup&gt; which you can extend and simply provide the configuration for your processor along with your own processing code as we can see below.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;package phun;
-
-import java.util.Collections;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;import java.util.Collections;
 import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
