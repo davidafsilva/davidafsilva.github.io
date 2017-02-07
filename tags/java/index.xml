@@ -9,6 +9,173 @@
     <atom:link href="http://davidafsilva.pt/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Abusing Java Annotation Processor API for &#34;Fun &amp; Profit&#34; - Part I</title>
+      <link>http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/</link>
+      <pubDate>Tue, 07 Feb 2017 20:51:00 +0000</pubDate>
+      
+      <guid>http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/</guid>
+      <description>&lt;p&gt;In this 2-part blog post, we&amp;rsquo;ll start by briefly explaining the purpose of annotation processors and how can we create and register one for fun (the profit will come later!). In the second part of this series, we&amp;rsquo;ll use and abuse its internal APIs to have even more fun! You&amp;rsquo;ll find yourself in a dark place with awesome cookies &amp;#9787; &lt;/p&gt;
+
+&lt;p&gt;This might take awhile, so go grab a bite to eat. Unfortunately, you don&amp;rsquo;t have the tasty dark side cookies just yet!&lt;/p&gt;
+
+&lt;h2 id=&#34;annotation-processor&#34;&gt;Annotation Processor&lt;/h2&gt;
+
+&lt;p&gt;First of all, i&amp;rsquo;ll assume you&amp;rsquo;re already familiar with annotations, if that&amp;rsquo;s not the case, feel free to read &lt;a href=&#34;https://docs.oracle.com/javase/tutorial/java/annotations/&#34;&gt;Oracle&amp;rsquo;s documentation&lt;/a&gt;&lt;sup id=&#34;a1&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f1&#34;&gt;[1]&lt;/a&gt;&lt;/sup&gt; on it.&lt;br /&gt;
+Annotation Processors are essentially a mechanism designed to process annotations (no shit Sherlock) at compile time. The key here is compile time, but we&amp;rsquo;ll get there soon.&lt;br /&gt;
+Basically, you register an annotation processor to be executed during compile time if certain conditions are met:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;The annotation processor &lt;strong&gt;must&lt;/strong&gt; provide a no-arg constructor&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;The code being compiled &lt;strong&gt;must&lt;/strong&gt; contain annotations that are marked as supported by the annotation processor (wildcards are supported)&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;The supported annotations &lt;strong&gt;must&lt;/strong&gt; not have been claimed by another annotation processor which had previously run&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;The annotation processor &lt;strong&gt;should&lt;/strong&gt; support the source version release (&lt;em&gt;-source&lt;/em&gt;). It&amp;rsquo;s not required, but you&amp;rsquo;ll get a warning: &lt;small&gt;&lt;code&gt;Supported source version &#39;RELEASE_&amp;lt;version&amp;gt;&#39; from annotation processor &#39;your.annotation.Processor&#39; less than -source &#39;&amp;lt;source version&amp;gt;&lt;/code&gt;&lt;/small&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;For a more in-depth explanation of the above, go ahead and read the contract defined by &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Processor.html&#34;&gt;Processor interface&lt;/a&gt;&lt;sup id=&#34;a2&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f2&#34;&gt;[2]&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;The main goal of annotation processors is to provide an extensible and dynamic way to &lt;strong&gt;generate&lt;/strong&gt; additional data (code, metadata, etc) at compilation time. As we&amp;rsquo;ll see and have fun while doing so (drooling for them cookies already?), modifying existent code isn&amp;rsquo;t part of the API defined by JSR-259&lt;sup id=&#34;a3&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f3&#34;&gt;[3]&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;creating-an-annotation-processor&#34;&gt;Creating an Annotation Processor&lt;/h2&gt;
+
+&lt;p&gt;The API is kind enough to provide you with an abstraction&lt;sup id=&#34;a4&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f4&#34;&gt;[4]&lt;/a&gt;&lt;/sup&gt; which you can extend and simply provide the configuration for your processor along with your own processing code as we can see below.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;package phun;
+
+import java.util.Collections;
+import java.util.Set;
+import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.SourceVersion;
+import javax.lang.model.element.TypeElement;
+import javax.tools.Diagnostic;
+
+public class ImNotGonnaLetYouCompileProcessor extends AbstractProcessor {
+
+  @Override
+  public Set&amp;lt;String&amp;gt; getSupportedAnnotationTypes() {
+    return Collections.singleton(&amp;quot;*&amp;quot;);
+  }
+
+  @Override
+  public SourceVersion getSupportedSourceVersion() {
+    return SourceVersion.latestSupported();
+  }
+
+  @Override
+  public boolean process(final Set&amp;lt;? extends TypeElement&amp;gt; annotations,
+    final RoundEnvironment roundEnv) {
+      if (!roundEnv.processingOver()) {
+        processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
+            &amp;quot;Even though i&#39;m a compiler and i don&#39;t have a nose, &amp;quot; +
+            &amp;quot;i sense that your code smells. Please redo and try again.&amp;quot;);
+      }
+      return true;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The above processor isn&amp;rsquo;t particularly helpful, at all, but i bet you&amp;rsquo;ll laugh your ass off if you hijack one of your buddies compilation procedure and watch him trying to compile his code.&lt;br /&gt;
+We&amp;rsquo;ll see how we can setup your compilation procedure to use the above annotation processor, but first, &lt;del&gt;let me take a selfie&lt;/del&gt; let&amp;rsquo;s break it down:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;AbstractProcessor&lt;/strong&gt;&lt;br /&gt;
+This is essentially the abstraction that i have mentioned earlier, it provides support for:&lt;br /&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Supported source versions via &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedSourceVersion.html&#34;&gt;@SupportedSourceVersion&lt;/a&gt;&lt;sup id=&#34;a5&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f5&#34;&gt;[5]&lt;/a&gt;&lt;/sup&gt; annotation.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Supported annotation types via &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedAnnotationTypes.html&#34;&gt;@SupportedAnnotationTypes&lt;/a&gt;&lt;sup id=&#34;a6&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f6&#34;&gt;[6]&lt;/a&gt;&lt;/sup&gt; annotation.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Supported processor options via &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedOptions.html&#34;&gt;@SupportedOptions&lt;/a&gt;&lt;sup id=&#34;a7&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f7&#34;&gt;[7]&lt;/a&gt;&lt;/sup&gt; annotation.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Issues warnings when appropriate (i.e. no source version have been configured).&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Holds a reference for &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/ProcessingEnvironment.html&#34;&gt;ProcessingEnvironment&lt;/a&gt;&lt;sup id=&#34;a8&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f8&#34;&gt;[8]&lt;/a&gt;&lt;/sup&gt; via the &lt;strong&gt;processingEnv&lt;/strong&gt; variable after the processor initialization.&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;getSupportedAnnotationTypes&lt;/strong&gt;&lt;br /&gt;
+Here we configure the supported annotations by our processor. Optionally, you can configure this via annotations if you use choose to extend AbstractProcessor.&lt;br /&gt;
+You must specify the canonical name of the supported annotations. Wildcards are also supported, where a single wildcard &amp;lsquo;*&amp;rsquo; denotes all annotations (including no annotations).&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;getSupportedSourceVersion&lt;/strong&gt;&lt;br /&gt;
+Here we configure the latest supported source version by our processor.&lt;br /&gt;
+You can also configure this via annotations if you use choose to extend AbstractProcessor, but you loose the flexibility of using &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/lang/model/SourceVersion.html#latest--&#34;&gt;latest()&lt;/a&gt; and&lt;br /&gt;
+&lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/lang/model/SourceVersion.html#latestSupported--&#34;&gt;latestSupported()&lt;/a&gt; for the configuration.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;process&lt;/strong&gt;(&lt;strong&gt;annotations&lt;/strong&gt;, &lt;strong&gt;roundEnv&lt;/strong&gt;)&lt;br /&gt;
+This is where all of the magic happens, where you implement your annotation processor code. But before coding the hell out of it, beware that:&lt;br /&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Annotation processing is done is [&lt;strong&gt;1&lt;/strong&gt;..&lt;strong&gt;N&lt;/strong&gt;] rounds: in each round both annotations being processed (annotations parameter) and annotated source elements (via roundEnv parameter) are handed to the processor.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/RoundEnvironment.html&#34;&gt;RoundEnvironment&lt;/a&gt;&lt;sup id=&#34;a9&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f9&#34;&gt;[9]&lt;/a&gt;&lt;/sup&gt; also contains information associated with the previous round.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;The return value affects subsequent rounds. That is:&lt;br /&gt;
+
+&lt;ul&gt;
+&lt;li&gt;if &lt;strong&gt;true&lt;/strong&gt; is returned, no subsequent processors will be asked to process the annotations being processed in that round.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;if &lt;strong&gt;false&lt;/strong&gt; is returned, subsequent processor might be asked to process them.&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;registering-an-annotation-processor&#34;&gt;Registering an Annotation Processor&lt;/h2&gt;
+
+&lt;p&gt;There are two ways for you to specify which annotation processors shall be used:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Manually via the &lt;code&gt;-processor&lt;/code&gt; compiler option&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Automatically by having the following packaging structure:&lt;br /&gt;
+Package your annotation processor code along with a file named &lt;code&gt;javax.annotation.processing.Processor&lt;/code&gt; under a &lt;code&gt;/META-INF/services/&lt;/code&gt; directory. That file is a simple text file with 0..N processors inside, identified by their canonical name, one per line.&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;We&amp;rsquo;re gonna take on option 2, which is how it&amp;rsquo;s usually done.&lt;/p&gt;
+
+&lt;p&gt;Compile the &amp;laquo;&lt;em&gt;ImNotGonnaLetYouCompileProcessor&lt;/em&gt;&amp;raquo; processor and create the &lt;em&gt;META-INF/services/javax.annotation.processing.Processor&lt;/em&gt; file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-zsh&#34;&gt;javac ImNotGonnaLetYouCompileProcessor.java
+mkdir -p META-INF/services/
+echo &amp;quot;ImNotGonnaLetYouCompileProcessor&amp;quot; &amp;gt; META-INF/services/javax.annotation.processing.Processor
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next, create a jar file with the above structure by issuing the following command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-zsh&#34;&gt;jar cvf smelly-code-processor.jar ImNotGonnaLetYouCompileProcessor.class META-INF
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You should have a jar file with the following structure:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-zsh&#34;&gt;Archive:  smelly-code-processor.jar
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  02-05-2017 16:40   META-INF/
+       69  02-05-2017 16:40   META-INF/MANIFEST.MF
+     1655  02-05-2017 16:39   ImNotGonnaLetYouCompileProcessor.class
+        0  02-03-2017 14:14   META-INF/services/
+       33  02-05-2017 16:38   META-INF/services/javax.annotation.processing.Processor
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, you only need to clone your awesome jar file to your colleagues/buddies compile classpath (that&amp;rsquo;s up to you to figure that out). Sit back, relax and enjoy the moment. Try not to laugh too much, as you&amp;rsquo;ll have some explaining to do right after &amp;#9787;&lt;br /&gt;
+&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;Well, after this light introduction to the annotation processor API, we&amp;rsquo;re now able to create &lt;del&gt;teh best&lt;/del&gt; a simple annotation processor. Creating a processor that generates data/code is also quite simple through the &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Filer.html&#34;&gt;Filer&lt;/a&gt;&lt;sup id=&#34;a10&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f10&#34;&gt;[10]&lt;/a&gt;&lt;/sup&gt; utility class accessible via &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/ProcessingEnvironment.html#getFiler--&#34;&gt;processingEnv.getFiler()&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;On a side note, &lt;strong&gt;DO NOT&lt;/strong&gt; generate code &amp;laquo;by hand&amp;raquo;, use a template engine such as &lt;a href=&#34;http://velocity.apache.org/&#34;&gt;Apache Velocity&lt;/a&gt;&lt;sup id=&#34;a11&#34;&gt;&lt;a href=&#34;http://davidafsilva.pt/blog/abusing_jap_apis_for_fun_and_profit_pt1/#f11&#34;&gt;[11]&lt;/a&gt;&lt;/sup&gt; or any other that suits your needs. You can thank me later. I&amp;rsquo;m cool with cookies (the dark side flavour of course!), pancakes and waffles.. eheh.&lt;br /&gt;
+Let me know on the comment section below if you want an example on that as well.&lt;br /&gt;
+&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;That&amp;rsquo;s it folks, we&amp;rsquo;ll have some fun in part II, which shall be available soon. Meanwhile, go ahead and prank your colleagues and buddies with our awesome processor!&lt;/p&gt;
+
+&lt;hr/&gt;
+
+&lt;p&gt;&lt;small&gt;&lt;b id=&#34;f1&#34;&gt;[1] &lt;/b&gt; &lt;a href=&#34;https://docs.oracle.com/javase/tutorial/java/annotations/&#34;&gt;https://docs.oracle.com/javase/tutorial/java/annotations/&lt;/a&gt;&lt;/small&gt;&lt;br /&gt;
+&lt;small&gt;&lt;b id=&#34;f2&#34;&gt;[2] &lt;/b&gt; &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Processor.html&#34;&gt;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Processor.html&lt;/a&gt;&lt;/small&gt;&lt;br /&gt;
+&lt;small&gt;&lt;b id=&#34;f3&#34;&gt;[3] &lt;/b&gt; &lt;a href=&#34;https://www.jcp.org/en/jsr/detail?id=269&#34;&gt;https://www.jcp.org/en/jsr/detail?id=269&lt;/a&gt;&lt;/small&gt;&lt;br /&gt;
+&lt;small&gt;&lt;b id=&#34;f4&#34;&gt;[4] &lt;/b&gt; &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/AbstractProcessor.html&#34;&gt;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/AbstractProcessor.html&lt;/a&gt;&lt;/small&gt;&lt;br /&gt;
+&lt;small&gt;&lt;b id=&#34;f5&#34;&gt;[5] &lt;/b&gt; &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedAnnotationTypes.html&#34;&gt;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedAnnotationTypes.html&lt;/a&gt;&lt;/small&gt;&lt;br /&gt;
+&lt;small&gt;&lt;b id=&#34;f6&#34;&gt;[6] &lt;/b&gt; &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedSourceVersion.html&#34;&gt;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedSourceVersion.html&lt;/a&gt;&lt;/small&gt;&lt;br /&gt;
+&lt;small&gt;&lt;b id=&#34;f7&#34;&gt;[7] &lt;/b&gt; &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedOptions.html&#34;&gt;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedOptions.html&lt;/a&gt;&lt;/small&gt;&lt;br /&gt;
+&lt;small&gt;&lt;b id=&#34;f8&#34;&gt;[8] &lt;/b&gt; &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/ProcessingEnvironment.html&#34;&gt;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/ProcessingEnvironment.html&lt;/a&gt;&lt;/small&gt;&lt;br /&gt;
+&lt;small&gt;&lt;b id=&#34;f9&#34;&gt;[9] &lt;/b&gt; &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/RoundEnvironment.html&#34;&gt;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/RoundEnvironment.html&lt;/a&gt;&lt;/small&gt;&lt;br /&gt;
+&lt;small&gt;&lt;b id=&#34;f10&#34;&gt;[10] &lt;/b&gt; &lt;a href=&#34;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Filer.html&#34;&gt;https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Filer.html&lt;/a&gt;&lt;/small&gt;&lt;br /&gt;
+&lt;small&gt;&lt;b id=&#34;f11&#34;&gt;[11] &lt;/b&gt; &lt;a href=&#34;http://velocity.apache.org/&#34;&gt;http://velocity.apache.org/&lt;/a&gt;&lt;/small&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Road to OCA Java SE 8 Programmer I (1Z0-808)</title>
       <link>http://davidafsilva.pt/blog/oca_jse8_certification/</link>
       <pubDate>Wed, 11 Jan 2017 22:33:00 +0000</pubDate>
