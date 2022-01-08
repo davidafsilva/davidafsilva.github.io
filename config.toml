@@ -7,6 +7,7 @@ footnoteReturnLinkContents = "↩"
 paginate     = 10
 rssLimit     = 10
 enableRobotsTXT = true
+disableSitemap = true
 
 [author]
   name = "David Silva"
@@ -14,17 +15,12 @@ enableRobotsTXT = true
 [permalinks]
   posts = "/blog/posts/:year/:month/:title/"
 
-[taxonomies]
-  tag      = "tags"
-  category = "categories"
-
 [params]
-  description     = "Welcome to my localhost!"
   homeSubtitle    = "Senior Complainer, Part-time Software Engineer"
   keywords        = "home, blog, software, engineer, jvm, java, kotlin, go"
-  images          = ["me.jpg"]
+  images = []
 
-  enableSharingButtons     = true
+  enableSharingButtons     = false
   enableThemeToggle        = true
   disableReadOtherPosts    = true
 
@@ -41,7 +37,7 @@ enableRobotsTXT = true
 
   [params.portrait]
     path     = "/me.jpeg"
-    alt      = "Portrait"
+    alt      = "Hi there!"
     maxWidth = "250px"
 
   [[params.social]]
@@ -58,8 +54,10 @@ enableRobotsTXT = true
     url  = "https://github.com/davidafsilva/cv/raw/master/cv.pdf"
 
   [params.footer]
-    topText = ["&copy; 2022 David Silva"]
-    bottomText = []
+    trademark = true
+    rss = true
+    copyright = false
+    author = true
 
 [languages]
   [languages.en]
