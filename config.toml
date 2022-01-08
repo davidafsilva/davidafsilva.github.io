@@ -1,0 +1,83 @@
+languageCode = 'en-us'
+baseURL      = 'https://davidafsilva.pt/'
+theme        = 'hello-friend-ng'
+enableEmoji  = true
+
+paginate     = 10
+rssLimit     = 10
+
+[author]
+  name = "David Silva"
+
+[permalinks]
+  posts = "/blog/posts/:year/:month/:title/"
+
+[taxonomies]
+  tag      = "tags"
+  category = "categories"
+
+[params]
+  description     = "Welcome to my localhost!"
+  homeSubtitle    = "Senior Complainer, Part-time Software Engineer"
+  keywords        = "home, blog, software, engineer, jvm, java, kotlin, go"
+  images          = ["me.jpg"]
+
+  disableReadOtherPosts = false
+  enableSharingButtons = true
+  enableThemeToggle = true
+  enableGlobalLanguageMenu = false
+  disableReadOtherPosts = true
+
+  dateform        = "January 2, 2006"
+  dateformShort   = "January 2"
+  dateformNum     = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04"
+
+  [params.logo]
+    logoMark = "root@davidafsilva.pt"
+    logoText = "$ cd /"
+    logoHomeLink = "/"
+    logoCursorColor = "#99FFCC"
+
+  [params.portrait]
+    path     = "/me.jpeg"
+    alt      = "Portrait"
+    maxWidth = "250px"
+
+  [[params.social]]
+    name = "email"
+    url  = "mailto:myname@thisdomain"
+  [[params.social]]
+    name = "github"
+    url  = "https://github.com/davidafsilva"
+  [[params.social]]
+    name = "linkedin"
+    url  = "https://www.linkedin.com/in/davidafsilva/"
+  [[params.social]]
+    name = "case"
+    url  = "https://github.com/davidafsilva/cv/raw/master/cv.pdf"
+
+  [params.footer]
+    topText = ["&copy; 2022 David Silva"]
+    bottomText = []
+
+[languages]
+  [languages.en]
+    title     = "Yolo Engineering"
+    readOtherPosts = "Read other posts"
+
+  [[menu.main]]
+    identifier = "about"
+    name       = "About"
+    url        = "/about"
+  [[menu.main]]
+    identifier = "blog"
+    name       = "Blog"
+    url        = "/blog"
+
+[markup]
+  defaultMarkdownHandler = 'goldmark'
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      hardWraps = true
+      unsafe = true
