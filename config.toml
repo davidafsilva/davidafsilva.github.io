@@ -83,3 +83,6 @@ enableRobotsTXT = true
     [markup.goldmark.renderer]
       hardWraps = true
       unsafe = true
+  [markup.highlight]
+    tabWidth = 2
+    style = "native"
