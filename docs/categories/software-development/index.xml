@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Software Development on Yolo Engineering</title>
+    <link>https://davidafsilva.pt/categories/software-development/</link>
+    <description>Recent content in Software Development on Yolo Engineering</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 11 Jan 2017 22:33:00 +0000</lastBuildDate><atom:link href="https://davidafsilva.pt/categories/software-development/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Road to OCA Java SE 8 Programmer I (1Z0-808)</title>
+      <link>https://davidafsilva.pt/blog/post/oca_jse8_certification/</link>
+      <pubDate>Wed, 11 Jan 2017 22:33:00 +0000</pubDate>
+      
+      <guid>https://davidafsilva.pt/blog/post/oca_jse8_certification/</guid>
+      <description>So, after pushing away the OCA Java SE 8 Programmer I[1] exam for a gazillion years (originally, the SE 7 version), last June (2016), I&amp;rsquo;ve been given the opportunity (indeed, a voucher) to take the exam, but guess what? I simply forgot. Well, not forgot, but I thought the voucher was due in June 2017, 1 year after the purchase, but it wasn&amp;rsquo;t - yeah i know, I am an idiot&amp;hellip;</description>
+    </item>
+    
+  </channel>
+</rss>

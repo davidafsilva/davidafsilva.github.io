@@ -2,9 +2,11 @@ languageCode = 'en-us'
 baseURL      = 'https://davidafsilva.pt/'
 theme        = 'hello-friend-ng'
 enableEmoji  = true
-
+publishDir   = "docs"
+footnoteReturnLinkContents = "↩"
 paginate     = 10
 rssLimit     = 10
+enableRobotsTXT = true
 
 [author]
   name = "David Silva"
@@ -22,11 +24,9 @@ rssLimit     = 10
   keywords        = "home, blog, software, engineer, jvm, java, kotlin, go"
   images          = ["me.jpg"]
 
-  disableReadOtherPosts = false
-  enableSharingButtons = true
-  enableThemeToggle = true
-  enableGlobalLanguageMenu = false
-  disableReadOtherPosts = true
+  enableSharingButtons     = true
+  enableThemeToggle        = true
+  disableReadOtherPosts    = true
 
   dateform        = "January 2, 2006"
   dateformShort   = "January 2"
@@ -70,10 +70,12 @@ rssLimit     = 10
     identifier = "about"
     name       = "About"
     url        = "/about"
+    weight     = 1
   [[menu.main]]
     identifier = "blog"
     name       = "Blog"
     url        = "/blog"
+    weight     = 2
 
 [markup]
   defaultMarkdownHandler = 'goldmark'

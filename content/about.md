@@ -10,7 +10,7 @@ showpagemeta: false
 
 My name is David and i'm the author of this website / blog. Yeah, no shit sherlock.
 
-I am a passionate _Software Engineer_ and _Security_ enthusiast. I do enjoy trying out and poke around with different technologies and frameworks as well as develop my own random ideas. Some of these can be found at [GitHub](https://github.com/davidafsilva). Unfortunately I'm not as active as I once used to be. Family happens and priorities change I guess :wink:
+I am a passionate _Software Engineer_ and _Security_ enthusiast. I do enjoy trying out and poke around with different technologies and frameworks as well as develop my own random ideas. Some of these can be found at [GitHub](https://github.com/davidafsilva). Unfortunately I'm not as active as I once used to be. Family happens and priorities change I guess &#9787;
 
 I do enjoy a good read regardless of the underlying format. A short and concise _article_ can be just as helpful as a good _book_. However, I find myself always having a book right next to my bedside and reading pretty much every day, even if it is just for 30 minutes.
 

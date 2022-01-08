@@ -5,6 +5,25 @@
     <link>https://davidafsilva.pt/tags/</link>
     <description>Recent content in Tags on Yolo Engineering</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://davidafsilva.pt/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Wed, 11 Jan 2017 22:33:00 +0000</lastBuildDate><atom:link href="https://davidafsilva.pt/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>certification</title>
+      <link>https://davidafsilva.pt/tags/certification/</link>
+      <pubDate>Wed, 11 Jan 2017 22:33:00 +0000</pubDate>
+      
+      <guid>https://davidafsilva.pt/tags/certification/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>java</title>
+      <link>https://davidafsilva.pt/tags/java/</link>
+      <pubDate>Wed, 11 Jan 2017 22:33:00 +0000</pubDate>
+      
+      <guid>https://davidafsilva.pt/tags/java/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
