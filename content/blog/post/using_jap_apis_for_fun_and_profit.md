@@ -131,7 +131,7 @@ Archive:  smelly-code-blocker-processor.jar
      1655  02-05-2017 16:39   SmellyCodeBlockerProcessor.class
 ```
 
-There's really only one thing left to do. Find a way to clone your awesome jar file to your buddy compile classpath - that's up to you, I cannot tell how to do it - sit back, relax and enjoy the moment. Try not to laugh too much, as you'll have some explaining to do right after &#9787;
+There's really only one thing left to do, profit. Find a way to clone your awesome jar file to your buddy compile classpath - that's up to you, I cannot tell how to do it - sit back, relax and enjoy the moment. Try not to laugh too much, as you'll have some explaining to do right after &#9787;
 
 ## Final thoughts
 

@@ -47,7 +47,7 @@ Annotation Processors are essentially a mechanism designed to process annotation
 Annotation Processor First of all, I&rsquo;ll assume you&rsquo;re already familiar with annotations, if that&rsquo;s not the case, feel free to read Oracle&rsquo;s documentation[1] on it.
 Annotation Processors are essentially a mechanism designed to process annotations - I bet you did not expect this one - at compile time."><meta itemprop="datePublished" content="2017-02-07T20:51:00+00:00" />
 <meta itemprop="dateModified" content="2017-02-07T20:51:00+00:00" />
-<meta itemprop="wordCount" content="1115"><meta itemprop="image" content="https://davidafsilva.pt/me.jpg"/>
+<meta itemprop="wordCount" content="1116"><meta itemprop="image" content="https://davidafsilva.pt/me.jpg"/>
 <meta itemprop="keywords" content="java,annotation processor," />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://davidafsilva.pt/me.jpg"/>
@@ -255,7 +255,7 @@ mkdir -p META-INF/services/
         0  02-03-2017 14:14   META-INF/services/
        33  02-05-2017 16:38   META-INF/services/javax.annotation.processing.Processor
      1655  02-05-2017 16:39   SmellyCodeBlockerProcessor.class
-</code></pre></div><p>There&rsquo;s really only one thing left to do. Find a way to clone your awesome jar file to your buddy compile classpath - that&rsquo;s up to you, I cannot tell how to do it - sit back, relax and enjoy the moment. Try not to laugh too much, as you&rsquo;ll have some explaining to do right after ☻</p>
+</code></pre></div><p>There&rsquo;s really only one thing left to do, profit. Find a way to clone your awesome jar file to your buddy compile classpath - that&rsquo;s up to you, I cannot tell how to do it - sit back, relax and enjoy the moment. Try not to laugh too much, as you&rsquo;ll have some explaining to do right after ☻</p>
 <h2 id="final-thoughts">Final thoughts</h2>
 <p>Well, after this light introduction to the annotation processor API, we&rsquo;re now able to create <del>the best</del> simple annotation processors.</p>
 <p>Creating (more complex) processors that generate arbitrary data/files/code is also quite simple through the <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Filer.html">Filer</a><sup id="a10"><a href="https://davidafsilva.pt/blog/post/using_jap_apis_for_fun_and_profit/#f10">[10]</a></sup> utility class, accessible via <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/ProcessingEnvironment.html#getFiler--">processingEnv.getFiler()</a>.<br>
