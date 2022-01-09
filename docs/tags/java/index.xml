@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>java on Yolo Engineering</title>
+    <title>java on #yoloengineer</title>
     <link>https://davidafsilva.pt/tags/java/</link>
-    <description>Recent content in java on Yolo Engineering</description>
+    <description>Recent content in java on #yoloengineer</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
     <lastBuildDate>Tue, 07 Feb 2017 20:51:00 +0000</lastBuildDate><atom:link href="https://davidafsilva.pt/tags/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Using Java Annotation Processor API for &#34;Fun &amp; Profit&#34;</title>
-      <link>https://davidafsilva.pt/blog/post/using_jap_apis_for_fun_and_profit/</link>
+      <link>https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/</link>
       <pubDate>Tue, 07 Feb 2017 20:51:00 +0000</pubDate>
       
-      <guid>https://davidafsilva.pt/blog/post/using_jap_apis_for_fun_and_profit/</guid>
+      <guid>https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/</guid>
       <description>In this blog post, we&amp;rsquo;ll start by briefly explaining the purpose of annotation processors and how can we create and register one for fun (the profit will come later!). Grab a cup of coffee and let&amp;rsquo;s go! ☻
 Annotation Processor First of all, I&amp;rsquo;ll assume you&amp;rsquo;re already familiar with annotations, if that&amp;rsquo;s not the case, feel free to read Oracle&amp;rsquo;s documentation[1] on it.
 Annotation Processors are essentially a mechanism designed to process annotations - I bet you did not expect this one - at compile time.</description>
@@ -20,10 +19,10 @@ Annotation Processors are essentially a mechanism designed to process annotation
     
     <item>
       <title>Road to OCA Java SE 8 Programmer I (1Z0-808)</title>
-      <link>https://davidafsilva.pt/blog/post/oca_jse8_certification/</link>
+      <link>https://davidafsilva.pt/post/oca_jse8_certification/</link>
       <pubDate>Wed, 11 Jan 2017 22:33:00 +0000</pubDate>
       
-      <guid>https://davidafsilva.pt/blog/post/oca_jse8_certification/</guid>
+      <guid>https://davidafsilva.pt/post/oca_jse8_certification/</guid>
       <description>So, after pushing away the OCA Java SE 8 Programmer I[1] exam for a gazillion years (originally, the SE 7 version), last June (2016), I&amp;rsquo;ve been given the opportunity (indeed, a voucher) to take the exam, but guess what? I simply forgot. Well, not forgot, but I thought the voucher was due in June 2017, 1 year after the purchase, but it wasn&amp;rsquo;t - yeah i know, I am an idiot&amp;hellip;</description>
     </item>
     

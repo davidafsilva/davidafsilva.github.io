@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Using Java Annotation Processor API for &#34;Fun &amp; Profit&#34; | #yoloengineer</title>
+<meta name="keywords" content="java, annotation processor" />
+<meta name="description" content="In this blog post, we&rsquo;ll start by briefly explaining the purpose of annotation processors and how can we create and register one for fun (the profit will come later!). Grab a cup of coffee and let&rsquo;s go! ☻
+Annotation Processor First of all, I&rsquo;ll assume you&rsquo;re already familiar with annotations, if that&rsquo;s not the case, feel free to read Oracle&rsquo;s documentation[1] on it.
+Annotation Processors are essentially a mechanism designed to process annotations - I bet you did not expect this one - at compile time.">
+<meta name="author" content="David Silva">
+<link rel="canonical" href="https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.c88963fe2d79462000fd0fb1b3737783c32855d340583e4523343f8735c787f0.css" integrity="sha256-yIlj/i15RiAA/Q&#43;xs3N3g8MoVdNAWD5FIzQ/hzXHh/A=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://davidafsilva.pt/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://davidafsilva.pt/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://davidafsilva.pt/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://davidafsilva.pt/apple-touch-icon.png">
+<link rel="mask-icon" href="https://davidafsilva.pt/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.91.2" />
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Using Java Annotation Processor API for &#34;Fun &amp; Profit&#34;" />
+<meta property="og:description" content="In this blog post, we&rsquo;ll start by briefly explaining the purpose of annotation processors and how can we create and register one for fun (the profit will come later!). Grab a cup of coffee and let&rsquo;s go! ☻
+Annotation Processor First of all, I&rsquo;ll assume you&rsquo;re already familiar with annotations, if that&rsquo;s not the case, feel free to read Oracle&rsquo;s documentation[1] on it.
+Annotation Processors are essentially a mechanism designed to process annotations - I bet you did not expect this one - at compile time." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2017-02-07T20:51:00&#43;00:00" />
+<meta property="article:modified_time" content="2017-02-07T20:51:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Using Java Annotation Processor API for &#34;Fun &amp; Profit&#34;"/>
+<meta name="twitter:description" content="In this blog post, we&rsquo;ll start by briefly explaining the purpose of annotation processors and how can we create and register one for fun (the profit will come later!). Grab a cup of coffee and let&rsquo;s go! ☻
+Annotation Processor First of all, I&rsquo;ll assume you&rsquo;re already familiar with annotations, if that&rsquo;s not the case, feel free to read Oracle&rsquo;s documentation[1] on it.
+Annotation Processors are essentially a mechanism designed to process annotations - I bet you did not expect this one - at compile time."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://davidafsilva.pt/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Using Java Annotation Processor API for \"Fun \u0026 Profit\"",
+      "item": "https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Using Java Annotation Processor API for \"Fun \u0026 Profit\"",
+  "name": "Using Java Annotation Processor API for \u0022Fun \u0026 Profit\u0022",
+  "description": "In this blog post, we\u0026rsquo;ll start by briefly explaining the purpose of annotation processors and how can we create and register one for fun (the profit will come later!). Grab a cup of coffee and let\u0026rsquo;s go! ☻\nAnnotation Processor First of all, I\u0026rsquo;ll assume you\u0026rsquo;re already familiar with annotations, if that\u0026rsquo;s not the case, feel free to read Oracle\u0026rsquo;s documentation[1] on it.\nAnnotation Processors are essentially a mechanism designed to process annotations - I bet you did not expect this one - at compile time.",
+  "keywords": [
+    "java", "annotation processor"
+  ],
+  "articleBody": "In this blog post, we’ll start by briefly explaining the purpose of annotation processors and how can we create and register one for fun (the profit will come later!). Grab a cup of coffee and let’s go! ☻\nAnnotation Processor First of all, I’ll assume you’re already familiar with annotations, if that’s not the case, feel free to read Oracle’s documentation[1] on it.\nAnnotation Processors are essentially a mechanism designed to process annotations - I bet you did not expect this one - at compile time. The key here is at compile time, but we’ll get there soon.\nIn order to register an annotation processor to be executed during compilation, certain conditions need to be met:\n The annotation processor must provide a no-arg constructor The code being compiled must contain annotations that are marked as supported by the annotation processor  wildcards are supported   The supported annotations must not have been claimed by another annotation processor which had previously run The annotation processor should support the source version release (-source)  While not required it is a nice guideline to follow. If that’s not the case, you’ll get a warning: Supported source version 'RELEASE_' from annotation processor 'your.annotation.Processor' less than -source '    For a more in-depth explanation of the above conditions, go ahead and read the contract defined by the Processor’s interface[2].\nThe main goal of an annotation processors is to provide an extensible and dynamic way to generate additional code and/or configuration files (just to mention a few examples) at compilation time.\nIn case you have missed, the additional bits are relevant here, mostly because modifying existent code - read modifying the AST - isn’t part of the API defined by JSR-259[3]. However, they are ways around it by relying on internal APIs instead. Otherwise, some of the libraries and frameworks that we come to love (and hate) would either be feature capped or not exist at all. We’ll not cover those here.\nCreating an Annotation Processor The API is kind enough to provide you with an abstraction[4] which you can extend and simply provide the configuration for your processor along with the processing code, as exemplified below.\nimport java.util.Collections; import java.util.Set; import javax.annotation.processing.AbstractProcessor; import javax.annotation.processing.RoundEnvironment; import javax.lang.model.SourceVersion; import javax.lang.model.element.TypeElement; import javax.tools.Diagnostic.Kind; public class SmellyCodeBlockerProcessor extends AbstractProcessor { @Override public SetString getSupportedAnnotationTypes() { return Collections.singleton(\"*\"); } @Override public SourceVersion getSupportedSourceVersion() { return SourceVersion.latestSupported(); } @Override public boolean process( final Set extends TypeElement annotations, final RoundEnvironment roundEnv ) { if (!roundEnv.processingOver()) { processingEnv.getMessager().printMessage(Kind.ERROR, \"Even though I am just a compiler and I don't have a nose, \" + \"I sense that your code smells. Please redo and try again.\"); } return true; } } The above processor isn’t particularly helpful, at all, but I bet you’ll laugh your ass off if you’re able to “compile-jack” one of your buddies and observe him while he’s trying to compile his code.\nWe’ll see how we can setup your compilation procedure to use the above annotation processor, but first let’s break it down:\n AbstractProcessor\nThis is essentially the abstraction that I have mentioned earlier, it provides support for:  Supported source versions via the @SupportedSourceVersion[5] annotation. Supported annotation types via the @SupportedAnnotationTypes[6] annotation. Supported processor options via the @SupportedOptions[7] annotation. Issues warnings when appropriate (e.g. no source version have been configured). Holds a reference for the ProcessingEnvironment[8] via the processingEnv variable, available after the processor initialization. This class provides a facility to create new files, report messages to the compiler (we certainly did that with the above processor!) along with other utility functions.   getSupportedAnnotationTypes\nThis method enables the configuration of the supported annotations by our processor. Optionally, you can configure this via annotations as well if you use choose to extend AbstractProcessor.\nYou must specify the canonical name of the supported annotations. Wildcards are also supported, where a single wildcard ‘*’ denotes all annotations. getSupportedSourceVersion\nThis method enables the configuration of the latest supported source version by the processor.\nYou can also configure this via annotations if you use choose to extend AbstractProcessor, but you loose the flexibility of using latest() and\nlatestSupported() for the configuration. process(annotations, roundEnv)\nThis is where all of the magic happens, where you implement your annotation processor code. But there are a few caveats that I want your to be aware before getting your hands dirty.  Annotation processing is done in [1..N] rounds: in each round both annotations being processed (annotations parameter) and annotated source elements (via roundEnv parameter) are handed to the processor. RoundEnvironment[9] contains information associated with the previous round(s). The return value affects subsequent rounds. That is:  if true is returned, no subsequent processors will be asked to process the annotations being processed in that round if false is returned, subsequent processor might be asked to process them      Registering an Annotation Processor There are two ways for you to specify which annotation processors shall be used:\n Manually via the -processor compiler option Automatically by packaging your annotation processor(s) alongside with a file named javax.annotation.processing.Processor under a /META-INF/services/ directory. The contents of that files are simply the canonical names of all processors that you’re packaging, one per line.  We’re gonna follow option 2 for the above processor, which is imho the way to go.\nCompile the “SmellyCodeBlockerProcessor” processor and create the META-INF/services/javax.annotation.processing.Processor file as detailed below:\njavac SmellyCodeBlockerProcessor.java mkdir -p META-INF/services/ echo \"SmellyCodeBlockerProcessor\"  META-INF/services/javax.annotation.processing.Processor We’re now able to package everything into a jar file with the proper structure by issuing the following command:\njar cvf smelly-code-blocker-processor.jar SmellyCodeBlockerProcessor.class META-INF You should have a jar file with the following structure:\nArchive: smelly-code-blocker-processor.jar Length Date Time Name --------- ---------- ----- ---- 0 02-05-2017 16:40 META-INF/ 69 02-05-2017 16:40 META-INF/MANIFEST.MF 0 02-03-2017 14:14 META-INF/services/ 33 02-05-2017 16:38 META-INF/services/javax.annotation.processing.Processor 1655 02-05-2017 16:39 SmellyCodeBlockerProcessor.class There’s really only one thing left to do, profit. Find a way to clone your awesome jar file to your buddy compile classpath - that’s up to you, I cannot tell how to do it - sit back, relax and enjoy the moment. Try not to laugh too much, as you’ll have some explaining to do right after ☻\nFinal thoughts Well, after this light introduction to the annotation processor API, we’re now able to create the best simple annotation processors.\nCreating (more complex) processors that generate arbitrary data/files/code is also quite simple through the Filer[10] utility class, accessible via processingEnv.getFiler().\nJust a quick tip upon going on that rabbit hole, DO NOT generate code “by hand”, use a template engine such as Apache Velocity[11] or any other that suits your needs. You can thank me later.\nAnd that’s it. See you soon!\n [1]  https://docs.oracle.com/javase/tutorial/java/annotations/\n[2]  https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Processor.html\n[3]  https://www.jcp.org/en/jsr/detail?id=269\n[4]  https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/AbstractProcessor.html\n[5]  https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedAnnotationTypes.html\n[6]  https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedSourceVersion.html\n[7]  https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedOptions.html\n[8]  https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/ProcessingEnvironment.html\n[9]  https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/RoundEnvironment.html\n[10]  https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Filer.html\n[11]  http://velocity.apache.org/\n",
+  "wordCount" : "1116",
+  "inLanguage": "en",
+  "datePublished": "2017-02-07T20:51:00Z",
+  "dateModified": "2017-02-07T20:51:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "David Silva"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "#yoloengineer",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://davidafsilva.pt/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://davidafsilva.pt/" accesskey="h" title="#yoloengineer (Alt + H)">#yoloengineer</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://davidafsilva.pt/about" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://davidafsilva.pt/post" title="Blog">
+                    <span>Blog</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://davidafsilva.pt/">Home</a>&nbsp;»&nbsp;<a href="https://davidafsilva.pt/post/">Posts</a></div>
+    <h1 class="post-title">
+      Using Java Annotation Processor API for &#34;Fun &amp; Profit&#34;
+    </h1>
+    <div class="post-meta"><span title='2017-02-07 20:51:00 +0000 UTC'>February 7, 2017</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;David Silva&nbsp;|&nbsp;<a href="https://github.com/davidafsilva/davidafsilva.github.io/tree/master/content/post/using_jap_apis_for_fun_and_profit.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> 
+  <div class="post-content"><p>In this blog post, we&rsquo;ll start by briefly explaining the purpose of annotation processors and how can we create and register one for fun (the profit will come later!). Grab a cup of coffee and let&rsquo;s go! ☻</p>
+<h2 id="annotation-processor">Annotation Processor<a hidden class="anchor" aria-hidden="true" href="#annotation-processor">#</a></h2>
+<p>First of all, I&rsquo;ll assume you&rsquo;re already familiar with annotations, if that&rsquo;s not the case, feel free to read <a href="https://docs.oracle.com/javase/tutorial/java/annotations/">Oracle&rsquo;s documentation</a><sup id="a1"><a href="https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/#f1">[1]</a></sup> on it.<br>
+Annotation Processors are essentially a mechanism designed to process annotations - I bet you did not expect this one - at compile time. The key here is <em>at compile time</em>, but we&rsquo;ll get there soon.</p>
+<p>In order to register an annotation processor to be executed during compilation, certain conditions need to be met:</p>
+<ol>
+<li>The annotation processor <strong>must</strong> provide a no-arg constructor</li>
+<li>The code being compiled <strong>must</strong> contain annotations that are marked as supported by the annotation processor
+<ul>
+<li>wildcards are supported</li>
+</ul>
+</li>
+<li>The supported annotations <strong>must</strong> not have been claimed by another annotation processor which had previously run</li>
+<li>The annotation processor <strong>should</strong> support the source version release (<em>-source</em>)
+<ul>
+<li>While not required it is a nice guideline to follow. If that&rsquo;s not the case, you&rsquo;ll get a warning: <small><code>Supported source version 'RELEASE_&lt;version&gt;' from annotation processor 'your.annotation.Processor' less than -source '&lt;source version&gt;</code></small></li>
+</ul>
+</li>
+</ol>
+<p>For a more in-depth explanation of the above conditions, go ahead and read the contract defined by the <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Processor.html">Processor&rsquo;s interface</a><sup id="a2"><a href="https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/#f2">[2]</a></sup>.</p>
+<p>The main goal of an annotation processors is to provide an extensible and dynamic way to generate <em>additional</em> code and/or configuration files (just to mention a few examples) at compilation time.<br>
+In case you have missed, the <em>additional</em> bits are relevant here, mostly because modifying existent code - read modifying the AST - isn&rsquo;t part of the API defined by JSR-259<sup id="a3"><a href="https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/#f3">[3]</a></sup>. However, they are ways around it by relying on internal APIs instead. Otherwise, some of the libraries and frameworks that we come to love (and hate) would either be feature capped or not exist at all. We&rsquo;ll not cover those here.</p>
+<h2 id="creating-an-annotation-processor">Creating an Annotation Processor<a hidden class="anchor" aria-hidden="true" href="#creating-an-annotation-processor">#</a></h2>
+<p>The API is kind enough to provide you with an abstraction<sup id="a4"><a href="https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/#f4">[4]</a></sup> which you can extend and simply provide the configuration for your processor along with the processing code, as exemplified below.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-java" data-lang="java"><span style="color:#ff79c6">import</span> java.util.Collections<span style="color:#ff79c6">;</span>
+<span style="color:#ff79c6">import</span> java.util.Set<span style="color:#ff79c6">;</span>
+<span style="color:#ff79c6">import</span> javax.annotation.processing.AbstractProcessor<span style="color:#ff79c6">;</span>
+<span style="color:#ff79c6">import</span> javax.annotation.processing.RoundEnvironment<span style="color:#ff79c6">;</span>
+<span style="color:#ff79c6">import</span> javax.lang.model.SourceVersion<span style="color:#ff79c6">;</span>
+<span style="color:#ff79c6">import</span> javax.lang.model.element.TypeElement<span style="color:#ff79c6">;</span>
+<span style="color:#ff79c6">import</span> javax.tools.Diagnostic.Kind<span style="color:#ff79c6">;</span>
+
+<span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">SmellyCodeBlockerProcessor</span> <span style="color:#8be9fd;font-style:italic">extends</span> AbstractProcessor <span style="color:#ff79c6">{</span>
+
+  @Override
+  <span style="color:#8be9fd;font-style:italic">public</span> Set<span style="color:#ff79c6">&lt;</span>String<span style="color:#ff79c6">&gt;</span> <span style="color:#50fa7b">getSupportedAnnotationTypes</span><span style="color:#ff79c6">()</span> <span style="color:#ff79c6">{</span>
+    <span style="color:#ff79c6">return</span> Collections<span style="color:#ff79c6">.</span><span style="color:#50fa7b">singleton</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;*&#34;</span><span style="color:#ff79c6">);</span>
+  <span style="color:#ff79c6">}</span>
+
+  @Override
+  <span style="color:#8be9fd;font-style:italic">public</span> SourceVersion <span style="color:#50fa7b">getSupportedSourceVersion</span><span style="color:#ff79c6">()</span> <span style="color:#ff79c6">{</span>
+    <span style="color:#ff79c6">return</span> SourceVersion<span style="color:#ff79c6">.</span><span style="color:#50fa7b">latestSupported</span><span style="color:#ff79c6">();</span>
+  <span style="color:#ff79c6">}</span>
+
+  @Override
+  <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">boolean</span> <span style="color:#50fa7b">process</span><span style="color:#ff79c6">(</span>
+    <span style="color:#8be9fd;font-style:italic">final</span> Set<span style="color:#ff79c6">&lt;?</span> <span style="color:#8be9fd;font-style:italic">extends</span> TypeElement<span style="color:#ff79c6">&gt;</span> annotations<span style="color:#ff79c6">,</span>
+    <span style="color:#8be9fd;font-style:italic">final</span> RoundEnvironment roundEnv
+  <span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+      <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(!</span>roundEnv<span style="color:#ff79c6">.</span><span style="color:#50fa7b">processingOver</span><span style="color:#ff79c6">())</span> <span style="color:#ff79c6">{</span>
+        processingEnv<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getMessager</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">printMessage</span><span style="color:#ff79c6">(</span>Kind<span style="color:#ff79c6">.</span><span style="color:#50fa7b">ERROR</span><span style="color:#ff79c6">,</span>
+            <span style="color:#f1fa8c">&#34;Even though I am just a compiler and I don&#39;t have a nose, &#34;</span> <span style="color:#ff79c6">+</span>
+            <span style="color:#f1fa8c">&#34;I sense that your code smells. Please redo and try again.&#34;</span><span style="color:#ff79c6">);</span>
+      <span style="color:#ff79c6">}</span>
+      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">true</span><span style="color:#ff79c6">;</span>
+  <span style="color:#ff79c6">}</span>
+<span style="color:#ff79c6">}</span>
+</code></pre></div><p>The above processor isn&rsquo;t particularly helpful, at all, but I bet you&rsquo;ll laugh your ass off if you&rsquo;re able to &ldquo;compile-jack&rdquo; one of your buddies and observe him while he&rsquo;s trying to compile his code.<br>
+We&rsquo;ll see how we can setup your compilation procedure to use the above annotation processor, but first let&rsquo;s break it down:</p>
+<ul>
+<li><strong>AbstractProcessor</strong><br>
+This is essentially the abstraction that I have mentioned earlier, it provides support for:
+<ul>
+<li>Supported source versions via the <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedSourceVersion.html">@SupportedSourceVersion</a><sup id="a5"><a href="https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/#f5">[5]</a></sup> annotation.</li>
+<li>Supported annotation types via the <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedAnnotationTypes.html">@SupportedAnnotationTypes</a><sup id="a6"><a href="https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/#f6">[6]</a></sup> annotation.</li>
+<li>Supported processor options via the <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedOptions.html">@SupportedOptions</a><sup id="a7"><a href="https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/#f7">[7]</a></sup> annotation.</li>
+<li>Issues warnings when appropriate (e.g. no source version have been configured).</li>
+<li>Holds a reference for the <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/ProcessingEnvironment.html">ProcessingEnvironment</a><sup id="a8"><a href="https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/#f8">[8]</a></sup> via the <strong>processingEnv</strong> variable, available after the processor initialization. This class provides a facility to create new files, report messages to the compiler (we certainly did that with the above processor!) along with other utility functions.</li>
+</ul>
+</li>
+<li><strong>getSupportedAnnotationTypes</strong><br>
+This method enables the configuration of the supported annotations by our processor. Optionally, you can configure this via annotations as well if you use choose to extend AbstractProcessor.<br>
+You must specify the canonical name of the supported annotations. Wildcards are also supported, where a single wildcard &lsquo;*&rsquo; denotes all annotations.</li>
+<li><strong>getSupportedSourceVersion</strong><br>
+This method enables the configuration of the latest supported source version by the processor.<br>
+You can also configure this via annotations if you use choose to extend AbstractProcessor, but you loose the flexibility of using <a href="https://docs.oracle.com/javase/8/docs/api/javax/lang/model/SourceVersion.html#latest--">latest()</a> and<br>
+<a href="https://docs.oracle.com/javase/8/docs/api/javax/lang/model/SourceVersion.html#latestSupported--">latestSupported()</a> for the configuration.</li>
+<li><strong>process</strong>(<strong>annotations</strong>, <strong>roundEnv</strong>)<br>
+This is where all of the magic happens, where you implement your annotation processor code. But there are a few caveats that I want your to be aware before getting your hands dirty.
+<ul>
+<li>Annotation processing is done in [<strong>1</strong>..<strong>N</strong>] rounds: in each round both annotations being processed (annotations parameter) and annotated source elements (via roundEnv parameter) are handed to the processor.</li>
+<li><a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/RoundEnvironment.html">RoundEnvironment</a><sup id="a9"><a href="https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/#f9">[9]</a></sup> contains information associated with the previous round(s).</li>
+<li>The return value affects subsequent rounds. That is:
+<ul>
+<li>if <strong>true</strong> is returned, no subsequent processors will be asked to process the annotations being processed in that round</li>
+<li>if <strong>false</strong> is returned, subsequent processor might be asked to process them</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="registering-an-annotation-processor">Registering an Annotation Processor<a hidden class="anchor" aria-hidden="true" href="#registering-an-annotation-processor">#</a></h2>
+<p>There are two ways for you to specify which annotation processors shall be used:</p>
+<ol>
+<li>Manually via the <code>-processor</code> compiler option</li>
+<li>Automatically by packaging your annotation processor(s) alongside with a file named <code>javax.annotation.processing.Processor</code> under a <code>/META-INF/services/</code> directory. The contents of that files are simply the canonical names of all processors that you&rsquo;re packaging, one per line.</li>
+</ol>
+<p>We&rsquo;re gonna follow option 2 for the above processor, which is imho the way to go.</p>
+<p>Compile the &ldquo;<em>SmellyCodeBlockerProcessor</em>&rdquo; processor and create the <em>META-INF/services/javax.annotation.processing.Processor</em> file as detailed below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-shell" data-lang="shell">javac SmellyCodeBlockerProcessor.java
+mkdir -p META-INF/services/
+<span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;SmellyCodeBlockerProcessor&#34;</span> &gt; META-INF/services/javax.annotation.processing.Processor
+</code></pre></div><p>We&rsquo;re now able to package everything into a jar file with the proper structure by issuing the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-shell" data-lang="shell">jar cvf smelly-code-blocker-processor.jar SmellyCodeBlockerProcessor.class META-INF
+</code></pre></div><p>You should have a jar file with the following structure:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-text" data-lang="text">Archive:  smelly-code-blocker-processor.jar
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  02-05-2017 16:40   META-INF/
+       69  02-05-2017 16:40   META-INF/MANIFEST.MF
+        0  02-03-2017 14:14   META-INF/services/
+       33  02-05-2017 16:38   META-INF/services/javax.annotation.processing.Processor
+     1655  02-05-2017 16:39   SmellyCodeBlockerProcessor.class
+</code></pre></div><p>There&rsquo;s really only one thing left to do, profit. Find a way to clone your awesome jar file to your buddy compile classpath - that&rsquo;s up to you, I cannot tell how to do it - sit back, relax and enjoy the moment. Try not to laugh too much, as you&rsquo;ll have some explaining to do right after ☻</p>
+<h2 id="final-thoughts">Final thoughts<a hidden class="anchor" aria-hidden="true" href="#final-thoughts">#</a></h2>
+<p>Well, after this light introduction to the annotation processor API, we&rsquo;re now able to create <del>the best</del> simple annotation processors.</p>
+<p>Creating (more complex) processors that generate arbitrary data/files/code is also quite simple through the <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Filer.html">Filer</a><sup id="a10"><a href="https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/#f10">[10]</a></sup> utility class, accessible via <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/ProcessingEnvironment.html#getFiler--">processingEnv.getFiler()</a>.<br>
+Just a quick tip upon going on that rabbit hole, <strong>DO NOT</strong> generate code &ldquo;by hand&rdquo;, use a template engine such as <a href="http://velocity.apache.org/">Apache Velocity</a><sup id="a11"><a href="https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/#f11">[11]</a></sup> or any other that suits your needs. You can thank me later.</p>
+<p>And that&rsquo;s it. See you soon!</p>
+<hr/>
+<p><small><b id="f1">[1] </b> <a href="https://docs.oracle.com/javase/tutorial/java/annotations/">https://docs.oracle.com/javase/tutorial/java/annotations/</a></small><br>
+<small><b id="f2">[2] </b> <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Processor.html">https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Processor.html</a></small><br>
+<small><b id="f3">[3] </b> <a href="https://www.jcp.org/en/jsr/detail?id=269">https://www.jcp.org/en/jsr/detail?id=269</a></small><br>
+<small><b id="f4">[4] </b> <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/AbstractProcessor.html">https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/AbstractProcessor.html</a></small><br>
+<small><b id="f5">[5] </b> <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedAnnotationTypes.html">https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedAnnotationTypes.html</a></small><br>
+<small><b id="f6">[6] </b> <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedSourceVersion.html">https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedSourceVersion.html</a></small><br>
+<small><b id="f7">[7] </b> <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedOptions.html">https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/SupportedOptions.html</a></small><br>
+<small><b id="f8">[8] </b> <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/ProcessingEnvironment.html">https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/ProcessingEnvironment.html</a></small><br>
+<small><b id="f9">[9] </b> <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/RoundEnvironment.html">https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/RoundEnvironment.html</a></small><br>
+<small><b id="f10">[10] </b> <a href="https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Filer.html">https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Filer.html</a></small><br>
+<small><b id="f11">[11] </b> <a href="http://velocity.apache.org/">http://velocity.apache.org/</a></small></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://davidafsilva.pt/tags/java/">java</a></li>
+      <li><a href="https://davidafsilva.pt/tags/annotation-processor/">annotation processor</a></li>
+    </ul>
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Using Java Annotation Processor API for &#34;Fun &amp; Profit&#34; on twitter"
+        href="https://twitter.com/intent/tweet/?text=Using%20Java%20Annotation%20Processor%20API%20for%20%22Fun%20%26%20Profit%22&amp;url=https%3a%2f%2fdavidafsilva.pt%2fpost%2fusing_jap_apis_for_fun_and_profit%2f&amp;hashtags=java%2cannotationprocessor">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Using Java Annotation Processor API for &#34;Fun &amp; Profit&#34; on linkedin"
+        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fdavidafsilva.pt%2fpost%2fusing_jap_apis_for_fun_and_profit%2f&amp;title=Using%20Java%20Annotation%20Processor%20API%20for%20%22Fun%20%26%20Profit%22&amp;summary=Using%20Java%20Annotation%20Processor%20API%20for%20%22Fun%20%26%20Profit%22&amp;source=https%3a%2f%2fdavidafsilva.pt%2fpost%2fusing_jap_apis_for_fun_and_profit%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Using Java Annotation Processor API for &#34;Fun &amp; Profit&#34; on reddit"
+        href="https://reddit.com/submit?url=https%3a%2f%2fdavidafsilva.pt%2fpost%2fusing_jap_apis_for_fun_and_profit%2f&title=Using%20Java%20Annotation%20Processor%20API%20for%20%22Fun%20%26%20Profit%22">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Using Java Annotation Processor API for &#34;Fun &amp; Profit&#34; on facebook"
+        href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fdavidafsilva.pt%2fpost%2fusing_jap_apis_for_fun_and_profit%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Using Java Annotation Processor API for &#34;Fun &amp; Profit&#34; on whatsapp"
+        href="https://api.whatsapp.com/send?text=Using%20Java%20Annotation%20Processor%20API%20for%20%22Fun%20%26%20Profit%22%20-%20https%3a%2f%2fdavidafsilva.pt%2fpost%2fusing_jap_apis_for_fun_and_profit%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Using Java Annotation Processor API for &#34;Fun &amp; Profit&#34; on telegram"
+        href="https://telegram.me/share/url?text=Using%20Java%20Annotation%20Processor%20API%20for%20%22Fun%20%26%20Profit%22&amp;url=https%3a%2f%2fdavidafsilva.pt%2fpost%2fusing_jap_apis_for_fun_and_profit%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28">
+            <path
+                d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+</div>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://davidafsilva.pt/">#yoloengineer</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

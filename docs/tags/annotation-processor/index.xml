@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>annotation processor on Yolo Engineering</title>
+    <title>annotation processor on #yoloengineer</title>
     <link>https://davidafsilva.pt/tags/annotation-processor/</link>
-    <description>Recent content in annotation processor on Yolo Engineering</description>
+    <description>Recent content in annotation processor on #yoloengineer</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
     <lastBuildDate>Tue, 07 Feb 2017 20:51:00 +0000</lastBuildDate><atom:link href="https://davidafsilva.pt/tags/annotation-processor/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Using Java Annotation Processor API for &#34;Fun &amp; Profit&#34;</title>
-      <link>https://davidafsilva.pt/blog/post/using_jap_apis_for_fun_and_profit/</link>
+      <link>https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/</link>
       <pubDate>Tue, 07 Feb 2017 20:51:00 +0000</pubDate>
       
-      <guid>https://davidafsilva.pt/blog/post/using_jap_apis_for_fun_and_profit/</guid>
+      <guid>https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/</guid>
       <description>In this blog post, we&amp;rsquo;ll start by briefly explaining the purpose of annotation processors and how can we create and register one for fun (the profit will come later!). Grab a cup of coffee and let&amp;rsquo;s go! ☻
 Annotation Processor First of all, I&amp;rsquo;ll assume you&amp;rsquo;re already familiar with annotations, if that&amp;rsquo;s not the case, feel free to read Oracle&amp;rsquo;s documentation[1] on it.
 Annotation Processors are essentially a mechanism designed to process annotations - I bet you did not expect this one - at compile time.</description>

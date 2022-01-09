@@ -1,8 +1,7 @@
 ---
 date: 2017-01-07T21:22:54Z
 slug: "about"
-title: "About Me"
-description: "Brief and short information about myself"
+title: "whoami"
 comments: false
 showcomments: false
 showpagemeta: false

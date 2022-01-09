@@ -1,0 +1,117 @@
+baseURL: "https://davidafsilva.pt/"
+title: "#yoloengineer"
+theme: "PaperMod"
+
+enableInlineShortcodes: true
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+enableEmoji: true
+
+publishDir: "docs"
+
+paginate: 10
+
+params:
+  author: "David Silva"
+  keywords:
+    [
+      "blog",
+      "software",
+      "engineer",
+      "dev",
+      "development",
+      "jvm",
+      "java",
+      "kotlin",
+      "go",
+    ]
+  defaultTheme: "auto"
+
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: false
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  disableSpecial1stPost: true
+  disableScrollToTop: false
+  comments: false
+  hidemeta: false
+  hideSummary: false
+  showtoc: false
+  tocopen: false
+
+  DateFormat: "January 2, 2006"
+  DateFormatShort: "January 2"
+  DateFormatNum: "2006-01-02"
+  DateFormatNumTime: "2006-01-02 15:04"
+
+  assets:
+    favicon: "favicon.ico"
+    favicon16x16: "favicon-16x16.png"
+    favicon32x32: "favicon-32x32.png"
+    apple_touch_icon: "apple-touch-icon.png"
+    safari_pinned_tab: "safari-pinned-tab.svg"
+
+  profileMode:
+    enabled: true
+    title: "David Silva"
+    subtitle: "Senior Complainer, Part-time Software Engineer"
+    imageUrl: "me.jpeg"
+    imageWidth: 250
+    imageHeight: 250
+    imageTitle: "Hai!"
+    buttons:
+      - name: Blog
+        url: /post
+
+  socialIcons:
+    - name: github
+      url: "https://github.com/davidafsilva"
+    - name: linkedin
+      url: "https://www.linkedin.com/in/davidafsilva/"
+    - name: email
+      url: "mailto:myname@thisdomain"
+    - name: cv
+      url: "https://github.com/davidafsilva/cv/blob/master/cv.pdf "
+
+  editPost:
+    URL: "https://github.com/davidafsilva/davidafsilva.github.io/tree/master/content"
+    Text: "Suggest Changes"
+    appendFilePath: true
+
+menu:
+  main:
+    - identifier: "about"
+      name: "About"
+      url: "/about"
+      weight: 1
+    - identifier: "blog"
+      name: "Blog"
+      url: "/post"
+      weight: 2
+
+markup:
+  defaultMarkdownHandler: "goldmark"
+  goldmark:
+    renderer:
+      hardWraps: true
+      unsafe: true
+  highlight:
+    tabWidth: 2
+    codeFences: true
+    lineNos: false
+    style: dracula
+    noClasses: true
+
+privacy:
+  vimeo:
+    disabled: true
+  twitter:
+    disabled: true
+  instagram:
+    disabled: true
+  youtube:
+    disabled: true
+    privacyEnhanced: true

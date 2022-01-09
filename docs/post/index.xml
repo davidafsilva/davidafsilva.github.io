@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>#yoloengineer</title>
-    <link>https://davidafsilva.pt/</link>
-    <description>Recent content on #yoloengineer</description>
+    <title>Posts on #yoloengineer</title>
+    <link>https://davidafsilva.pt/post/</link>
+    <description>Recent content in Posts on #yoloengineer</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 07 Feb 2017 20:51:00 +0000</lastBuildDate><atom:link href="https://davidafsilva.pt/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 07 Feb 2017 20:51:00 +0000</lastBuildDate><atom:link href="https://davidafsilva.pt/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Using Java Annotation Processor API for &#34;Fun &amp; Profit&#34;</title>
       <link>https://davidafsilva.pt/post/using_jap_apis_for_fun_and_profit/</link>
@@ -24,16 +24,6 @@ Annotation Processors are essentially a mechanism designed to process annotation
       
       <guid>https://davidafsilva.pt/post/oca_jse8_certification/</guid>
       <description>So, after pushing away the OCA Java SE 8 Programmer I[1] exam for a gazillion years (originally, the SE 7 version), last June (2016), I&amp;rsquo;ve been given the opportunity (indeed, a voucher) to take the exam, but guess what? I simply forgot. Well, not forgot, but I thought the voucher was due in June 2017, 1 year after the purchase, but it wasn&amp;rsquo;t - yeah i know, I am an idiot&amp;hellip;</description>
-    </item>
-    
-    <item>
-      <title>whoami</title>
-      <link>https://davidafsilva.pt/about/</link>
-      <pubDate>Sat, 07 Jan 2017 21:22:54 +0000</pubDate>
-      
-      <guid>https://davidafsilva.pt/about/</guid>
-      <description>My name is David and i&amp;rsquo;m the author of this website / blog. Yeah, no shit sherlock.
-I am a passionate Software Engineer and Security enthusiast. I do enjoy trying out and poke around with different technologies and frameworks as well as develop my own random ideas. Some of these can be found at GitHub. Unfortunately I&amp;rsquo;m not as active as I once used to be. Family happens and priorities change I guess ☻</description>
     </item>
     
   </channel>
