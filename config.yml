@@ -15,6 +15,7 @@ paginate: 10
 
 params:
   author: "David Silva"
+  description: "#yoloengineer because life is too short for not giving a damn."
   keywords:
     [
       "blog",
